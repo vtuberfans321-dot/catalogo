@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📚 Mega Catálogo Digital</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;
+  --card:#13131a;
+  --card2:#1a1a24;
+  --accent:#f59e0b;
+  --accent2:#06b6d4;
+  --text:#e2e8f0;
+  --text2:#94a3b8;
+  --border:#1e1e2e;
+  --radius:16px;
+  --shadow:0 8px 32px rgba(0,0,0,.4);
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+/* Hero */
+.hero{
+  background:linear-gradient(135deg,#0a0a1a 0%,#1a0a2e 50%,#0a0a1a 100%);
+  padding:60px 20px 40px;
+  text-align:center;
+  border-bottom:1px solid var(--border);
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:radial-gradient(circle at 30% 50%,rgba(245,158,11,.03) 0%,transparent 50%),
+             radial-gradient(circle at 70% 50%,rgba(6,182,212,.03) 0%,transparent 50%);
+  pointer-events:none;
+}
+.hero h1{
+  font-size:3.5rem;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:8px;
+  position:relative;
+}
+.hero .sub{
+  color:var(--text2);
+  font-size:1.2rem;
+  margin-bottom:20px;
+}
+.hero .stats{
+  display:flex;
+  gap:40px;
+  justify-content:center;
+  flex-wrap:wrap;
+  position:relative;
+}
+.hero .stat{text-align:center}
+.hero .stat-num{
+  font-size:2.2rem;
+  font-weight:800;
+  color:var(--accent);
+}
+.hero .stat-label{
+  color:var(--text2);
+  font-size:.85rem;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+/* Search */
+.search-wrap{
+  max-width:600px;
+  margin:30px auto 0;
+  position:relative;
+}
+.search-wrap input{
+  width:100%;
+  padding:16px 20px 16px 50px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  font-size:1rem;
+  outline:none;
+  transition:all .3s;
+}
+.search-wrap input:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(245,158,11,.1);
+}
+.search-wrap .icon{
+  position:absolute;
+  left:16px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:1.2rem;
+  opacity:.5;
+}
+
+/* Categories Grid */
+.container{max-width:1400px;margin:0 auto;padding:30px 20px}
+.categories{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:16px;
+  margin-bottom:30px;
+}
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:24px;
+  cursor:pointer;
+  transition:all .3s;
+  position:relative;
+  overflow:hidden;
+}
+.card:hover{
+  transform:translateY(-4px);
+  border-color:var(--accent);
+  box-shadow:var(--shadow);
+}
+.card .emoji{
+  font-size:2.5rem;
+  margin-bottom:8px;
+}
+.card h3{
+  font-size:1.1rem;
+  margin-bottom:4px;
+}
+.card .count{
+  color:var(--accent);
+  font-weight:700;
+  font-size:1.3rem;
+}
+.card .bar{
+  height:4px;
+  background:var(--border);
+  border-radius:2px;
+  margin-top:12px;
+  overflow:hidden;
+}
+.card .bar-fill{
+  height:100%;
+  border-radius:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transition:width 1s ease;
+}
+
+/* Books Grid */
+.books-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.books-header h2{font-size:1.5rem}
+.books-header .back-btn{
+  padding:8px 20px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  cursor:pointer;
+  font-size:.9rem;
+  transition:all .3s;
+}
+.books-header .back-btn:hover{
+  border-color:var(--accent);
+  background:var(--card2);
+}
+.books-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:10px;
+}
+.book-item{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px;
+  transition:all .3s;
+}
+.book-item:hover{
+  border-color:var(--accent2);
+  background:var(--card2);
+}
+.book-item .b-title{
+  font-size:.9rem;
+  font-weight:600;
+  margin-bottom:4px;
+  line-height:1.3;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.book-item .b-meta{
+  font-size:.75rem;
+  color:var(--text2);
+}
+.book-item .b-ext{
+  display:inline-block;
+  padding:2px 6px;
+  border-radius:4px;
+  font-size:.7rem;
+  font-weight:600;
+  margin-top:4px;
+}
+.ext-pdf{background:rgba(239,68,68,.15);color:#ef4444}
+.ext-epub{background:rgba(6,182,212,.15);color:#06b6d4}
+.ext-txt{background:rgba(168,85,247,.15);color:#a855f7}
+
+/* Load More */
+.load-more{
+  text-align:center;
+  margin-top:20px;
+}
+.load-more button{
+  padding:12px 40px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  cursor:pointer;
+  font-size:.95rem;
+  transition:all .3s;
+}
+.load-more button:hover{
+  border-color:var(--accent);
+  background:var(--card2);
+}
+
+/* Hide/show */
+.hidden{display:none!important}
+
+/* Footer */
+.footer{
+  text-align:center;
+  padding:30px;
+  color:var(--text2);
+  font-size:.85rem;
+  border-top:1px solid var(--border);
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .hero h1{font-size:2.2rem}
+  .hero .stats{gap:20px}
+  .categories{grid-template-columns:1fr}
+  .books-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .books-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>📚 MEGA CATÁLOGO</h1>
+  <div class="sub">Biblioteca digital con miles de libros para descargar</div>
+  <div class="stats">
+    <div class="stat"><div class="stat-num" id="totalBooks">0</div><div class="stat-label">Libros</div></div>
+    <div class="stat"><div class="stat-num" id="totalCats">0</div><div class="stat-label">Categorías</div></div>
+    <div class="stat"><div class="stat-num" id="totalSize">0</div><div class="stat-label">Tamaño</div></div>
+  </div>
+  <div class="search-wrap">
+    <span class="icon">🔍</span>
+    <input type="text" id="search" placeholder="Buscar por título o categoría..." oninput="filterCategories()">
+  </div>
+</div>
+
+<div class="container">
+  <div class="categories" id="categoriesGrid"></div>
+  <div id="booksSection" class="hidden">
+    <div class="books-header">
+      <h2 id="booksTitle">Libros</h2>
+      <button class="back-btn" onclick="showCategories()">← Volver a categorías</button>
+    </div>
+    <div class="books-grid" id="booksGrid"></div>
+    <div class="load-more" id="loadMore">
+      <button onclick="loadMoreBooks()">Cargar más libros</button>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Mega Catálogo Digital · 2026 · Todos los derechos reservados
+</div>
+
+<script>
+const EMOJIS = {{"Autoayuda y Desarrollo Personal": "🧠", "Autores Seleccionados": "📚", "Ciencia": "🔬", "Cursos y Aprendizaje": "📝", "Dinero": "💰", "Educación Financiera": "💵", "Historia y Filosofía": "📜", "Hombre Alfa y Dominio Personal": "🦁", "Mujeres Exitosas y Empoderamiento": "👑", "Novelas y Literatura": "📖", "Programación y Tecnología": "💻", "Psicología Oscura y Persuasión": "🎭", "Redes Sociales": "📈", "Temas Variados y Crecimiento": "🔮", "Titan Pack (Selección Premium)": "🏆", "Yoga": "🧘", "Éxito y Mentalidad Ganadora": "🔥"}};
+let catalog = null;
+let currentCat = null;
+let bookOffset = 0;
+const BOOKS_PER_PAGE = 48;
+
+async function init(){
+  try{
+    const res = await fetch('./catalog.json?_=' + Date.now());
+    catalog = await res.json();
+    
+    document.getElementById('totalBooks').textContent = catalog.total.toLocaleString();
+    document.getElementById('totalCats').textContent = Object.keys(catalog.categories).length;
+    
+    const totalSize = catalog.books.reduce((acc, b) => {
+      const s = b.size || '0KB';
+      if(s.includes('MB')) return acc + parseFloat(s);
+      return acc;
+    }, 0);
+    document.getElementById('totalSize').textContent = Math.round(totalSize) + 'GB';
+    
+    renderCategories();
+  } catch(e){
+    document.getElementById('categoriesGrid').innerHTML = '<p style="color:red">Error cargando catálogo. Asegúrate de que catalog.json existe.</p>';
+  }
+}
+
+function renderCategories(filter=''){
+  const grid = document.getElementById('categoriesGrid');
+  grid.innerHTML = '';
+  
+  const maxCount = Math.max(...Object.values(catalog.categories));
+  
+  const entries = Object.entries(catalog.categories)
+    .filter(([name]) => !filter || name.toLowerCase().includes(filter.toLowerCase()))
+    .sort((a,b) => b[1] - a[1]);
+  
+  if(entries.length === 0){
+    grid.innerHTML = '<p style="color:var(--text2);text-align:center;padding:40px">No se encontraron categorías</p>';
+    return;
+  }
+  
+  for(const [name, count] of entries){
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = () => showBooks(name);
+    
+    const pct = (count / maxCount) * 100;
+    
+    card.innerHTML = `
+      <div class="emoji">${EMOJIS[name] || '📚'}</div>
+      <h3>${name}</h3>
+      <div class="count">${count.toLocaleString()} libros</div>
+      <div class="bar"><div class="bar-fill" style="width:${pct}%"></div></div>
+    `;
+    grid.appendChild(card);
+  }
+}
+
+function filterCategories(){
+  const q = document.getElementById('search').value;
+  if(document.getElementById('booksSection').classList.contains('hidden')){
+    renderCategories(q);
+  }
+}
+
+function showBooks(category){
+  currentCat = category;
+  bookOffset = 0;
+  
+  document.getElementById('categoriesGrid').classList.add('hidden');
+  document.getElementById('booksSection').classList.remove('hidden');
+  document.getElementById('booksTitle').textContent = `${EMOJIS[category] || '📚'} ${category} — ${catalog.categories[category].toLocaleString()} libros`;
+  
+  document.getElementById('booksGrid').innerHTML = '';
+  document.getElementById('loadMore').classList.remove('hidden');
+  
+  loadMoreBooks();
+}
+
+function loadMoreBooks(){
+  if(!currentCat) return;
+  
+  const filtered = catalog.books.filter(b => b.category === currentCat);
+  const slice = filtered.slice(bookOffset, bookOffset + BOOKS_PER_PAGE);
+  
+  const grid = document.getElementById('booksGrid');
+  
+  for(const book of slice){
+    const item = document.createElement('div');
+    item.className = 'book-item';
+    
+    const ext = book.file.split('.').pop().toLowerCase();
+    const extClass = ext === 'pdf' ? 'ext-pdf' : ext === 'epub' ? 'ext-epub' : 'ext-txt';
+    
+    item.innerHTML = `
+      <div class="b-title">${escapeHtml(book.title)}</div>
+      <div class="b-meta">${book.size}</div>
+      <span class="b-ext ${extClass}">${ext.toUpperCase()}</span>
+    `;
+    grid.appendChild(item);
+  }
+  
+  bookOffset += BOOKS_PER_PAGE;
+  
+  if(bookOffset >= filtered.length){
+    document.getElementById('loadMore').classList.add('hidden');
+  }
+}
+
+function showCategories(){
+  document.getElementById('categoriesGrid').classList.remove('hidden');
+  document.getElementById('booksSection').classList.add('hidden');
+  document.getElementById('loadMore').classList.add('hidden');
+}
+
+function escapeHtml(text){
+  const d = document.createElement('div');
+  d.textContent = text;
+  return d.innerHTML;
+}
+
+init();
+</script>
+</body>
+</html>
