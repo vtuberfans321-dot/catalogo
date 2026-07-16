@@ -401,22 +401,12 @@ function quickSearch(query){
   const words = q.split(/\s+/).filter(w=>w.length>0);
   if(words.length===0) return [];
   
-  // Search through index by first letter for speed
-  const firstChar = q[0];
-  const candidates = searchIdx.get(firstChar)||[];
-  
-  // Also check nearby letters if first char match is small
-  let allCandidates = [...candidates];
-  if(candidates.length < 100){
-    // Search all
-    for(const [letter, items] of searchIdx){
-      if(letter !== firstChar) allCandidates = allCandidates.concat(items);
-    }
-  }
-  
-  for(const {book, key} of allCandidates){
-    if(words.every(w => key.includes(w))){
-      results.push(book);
+  // Search ALL books (simple linear search is fast enough for 5k books)
+  for(const [letter, items] of searchIdx){
+    for(const {book, key} of items){
+      if(words.every(w => key.includes(w))){
+        results.push(book);
+      }
     }
   }
   return results;
