@@ -153,10 +153,14 @@ nav.scrolled{background:var(--bg)}
 .cover .crating{
   position:absolute;bottom:12px;left:50%;
   transform:translateX(-50%);
-  z-index:3;font-size:.7rem;
-  color:var(--accent);letter-spacing:1.5px;
+  z-index:3;font-size:.8rem;
+  color:var(--accent);font-weight:700;
   text-shadow:0 1px 4px rgba(0,0,0,.6);
   opacity:0;transition:opacity .3s .2s;
+}
+.cover .crating .card-price{
+  background:var(--accent);color:var(--bg);
+  padding:2px 10px;border-radius:4px;font-size:.75rem;
 }
 .book-card:hover .cover .crating{opacity:1}
 
@@ -203,6 +207,12 @@ nav.scrolled{background:var(--bg)}
   background:linear-gradient(180deg,transparent 30%,var(--card) 100%);
 }
 .modal-hero-content{position:relative;z-index:2}
+.modal-price{
+  display:inline-block;margin-top:8px;font-size:1.4rem;font-weight:800;
+  color:var(--accent);background:rgba(0,0,0,.4);
+  padding:4px 14px;border-radius:6px;
+}
+.modal-price.free{color:#4ade80;font-size:1rem}
 .mtitle{
   font-size:1.5rem;font-weight:700;line-height:1.2;
   text-shadow:0 4px 20px rgba(0,0,0,.8);
@@ -309,6 +319,7 @@ footer{
       <div class="modal-hero-content">
         <div class="mtitle" id="mtitle"></div>
         <div class="mmeta"><span id="mcat"></span> · <span id="msize"></span></div>
+        <div class="modal-price" id="mprice"></div>
       </div>
     </div>
     <div class="modal-body">
@@ -451,7 +462,7 @@ function renderBooks(books){
           <div class="overlay"></div>
           <div class="ctitle">${escape(book.title)}</div>
           <div class="cline"></div>
-          <div class="crating">★★★★☆</div>
+          <div class="crating">${book.price ? '<span class="card-price">$'+Number(book.price).toLocaleString('es-CO')+'</span>' : '🎁 Gratis'}</div>
         </div>
       `;
       row.appendChild(card);
@@ -494,6 +505,14 @@ function openModal(book){
   document.getElementById('mtitle').textContent = book.title;
   document.getElementById('mcat').textContent = book.category;
   document.getElementById('msize').textContent = book.size;
+  const priceEl = document.getElementById('mprice');
+  if(book.price){
+    priceEl.textContent = '$'+Number(book.price).toLocaleString('es-CO')+' COP';
+    priceEl.className = 'modal-price';
+  } else {
+    priceEl.textContent = '🎁 Gratis';
+    priceEl.className = 'modal-price free';
+  }
   document.getElementById('mstars').textContent = '';
   document.getElementById('mscore').textContent = '';
 
