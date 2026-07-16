@@ -208,9 +208,15 @@ nav.scrolled{background:var(--bg)}
 }
 .modal-hero-content{position:relative;z-index:2}
 .modal-price{
-  display:inline-block;margin-top:8px;font-size:1.4rem;font-weight:800;
+  display:inline-block;margin-top:8px;font-size:1.1rem;font-weight:700;
   color:var(--accent);background:rgba(0,0,0,.4);
-  padding:4px 14px;border-radius:6px;
+  padding:6px 14px;border-radius:6px;line-height:1.5;
+}
+.modal-price s{color:var(--text3);font-weight:400;font-size:.85rem}
+.modal-price .discount-badge{
+  display:inline-block;background:#4ade80;color:#000;
+  font-size:.7rem;font-weight:800;padding:1px 8px;border-radius:4px;
+  vertical-align:middle;
 }
 .modal-price.free{color:#4ade80;font-size:1rem}
 .mtitle{
@@ -507,7 +513,8 @@ function openModal(book){
   document.getElementById('msize').textContent = book.size;
   const priceEl = document.getElementById('mprice');
   if(book.price){
-    priceEl.textContent = '$'+Number(book.price).toLocaleString('es-CO')+' COP';
+    const orig = book.orig_price ? `Precio original: <s>$${Number(book.orig_price).toLocaleString('es-CO')} COP</s>` : '';
+    priceEl.innerHTML = orig + `<br><strong>$${Number(book.price).toLocaleString('es-CO')} COP</strong> <span class="discount-badge">-${book.discount||50}%</span>`;
     priceEl.className = 'modal-price';
   } else {
     priceEl.textContent = '🎁 Gratis';
